@@ -1,7 +1,33 @@
 {
-  "price":37,
+  "price":37.50,
   "name":"Berlin ABC Weekly Ticket",
   "zone":"ABC",
+  "durationDays":7
+  "expiresTime":"0000",
+  "transferable":true,
+  "covers":[
+    { "adults":1, "dayType":"Week" },
+    { "adults":2, "children":3, "dayType":"Week", "startTime":"2000", "endTime":"0000" },
+    { "adults":2, "children":3, "dayType":"Weekend" },
+  ]
+}
+{
+  "price":30,
+  "name":"Berlin AB Weekly Ticket",
+  "zone":"AB",
+  "durationDays":7
+  "expiresTime":"0000",
+  "transferable":true,
+  "covers":[
+    { "adults":1, "dayType":"Week" },
+    { "adults":2, "children":3, "dayType":"Week", "startTime":"2000", "endTime":"0000" },
+    { "adults":2, "children":3, "dayType":"Weekend" },
+  ]
+}
+{
+  "price":31.40,
+  "name":"Berlin BC Weekly Ticket",
+  "zone":"BC",
   "durationDays":7
   "expiresTime":"0000",
   "transferable":true,
@@ -50,5 +76,215 @@
   "covers":[
     { "adults":5 },
     { "adults":2, "children":100 },
+  ]
+}
+
+{
+  "price":1.70,
+  "name":"Short Trip Ticket",
+  "zone":"ABC",
+  "shortTrip": true,
+  "transferable":true,
+  "durationHours": 2,
+  "covers":[
+	{ "adults":1 }
+  ]
+}
+
+{
+  "price":1.30,
+  "name":"Short Trip Ticket Reduced",
+  "zone":"ABC",
+  "shortTrip": true,
+  "transferable":true,
+  "durationHours": 2,
+  "covers":[
+	{ "children":1 }
+  ]
+}
+
+{
+  "price":1.70,
+  "name":"Ticket Berlin AB (Reduced)",
+  "zone":"AB",
+  "transferable":true,
+  "durationHours":2,
+  "covers":[
+	{ "children":1 }
+  ]
+}
+
+{
+  "price":2.20,
+  "name":"Ticket Berlin BC (Reduced)",
+  "zone":"BC",
+  "transferable":true,
+  "durationHours":2,
+  "covers":[
+	{ "children":1 }
+  ]
+}
+
+{
+  "price":2.50,
+  "name":"Ticket Berlin ABC (Reduced)",
+  "zone":"ABC",
+  "transferable":true,
+  "durationHours":2,
+  "covers":[
+	{ "children":1 }
+  ]
+}
+
+{
+  "price":2.80,
+  "name":"Ticket Berlin AB",
+  "zone":"AB",
+  "transferable":true,
+  "durationHours":2,
+  "covers":[
+	{ "adults":1 }
+  ]
+}
+
+{
+  "price":3.10,
+  "name":"Ticket Berlin BC",
+  "zone":"BC",
+  "transferable":true,
+  "durationHours":2,
+  "covers":[
+	{ "adults":1 }
+  ]
+}
+
+{
+  "price":3.40,
+  "name":"Ticket Berlin ABC",
+  "zone":"ABC",
+  "transferable":true,
+  "durationHours":2,
+  "covers":[
+	{ "adults":1 }
+  ]
+}
+
+{
+  "price":1.60,
+  "name":"Extension Ticket Berlin",
+  "zone":"ABC",
+  "isExtension":true,
+  "transferable":true,
+  "durationHours":2,
+  "covers":[
+    { "adults":1 }
+  ]
+}
+
+{
+  "price":4.70,
+  "name":"Day Ticket Berlin AB (Reduced)",
+  "zone":"AB",
+  "transferable":true,
+  "durationDays":1,
+  "expiresTime":"0300"
+  "covers":[
+    { "children":1 }
+  ]
+}
+
+{
+  "price":5.10,
+  "name":"Day Ticket Berlin BC (Reduced)",
+  "zone":"BC",
+  "transferable":true,
+  "durationDays":1,
+  "expiresTime":"0300"
+  "covers":[
+    { "children":1 }
+  ]
+}
+
+{
+  "price":5.30,
+  "name":"Day Ticket Berlin ABC (Reduced)",
+  "zone":"ABC",
+  "transferable":true,
+  "durationDays":1,
+  "expiresTime":"0300"
+  "covers":[
+    { "children":1 }
+  ]
+}
+
+{
+  "price":7,
+  "name":"Day Ticket Berlin AB",
+  "zone":"AB",
+  "transferable":true,
+  "durationDays":1,
+  "expiresTime":"0300"
+  "covers":[
+    { "adults":1, "children":3 }
+  ]
+}
+
+{
+  "price":7.40,
+  "name":"Day Ticket Berlin BC",
+  "zone":"BC",
+  "transferable":true,
+  "durationDays":1,
+  "expiresTime":"0300"
+  "covers":[
+    { "adults":1, "children":3 }
+  ]
+}
+
+{
+  "price":7.70,
+  "name":"Day Ticket Berlin ABC",
+  "zone":"ABC",
+  "transferable":true,
+  "durationDays":1,
+  "expiresTime":"0300"
+  "covers":[
+    { "adults":1, "children":3 }
+  ]
+}
+
+{
+  "price":19.90,
+  "name":"Group Day Ticket Berlin AB",
+  "zone":"AB",
+  "transferable":true,
+  "durationDays":1,
+  "expiresTime":"0300"
+  "covers":[
+    { "adults":5 }
+  ]
+}
+
+{
+  "price":20.60,
+  "name":"Group Day Ticket Berlin BC",
+  "zone":"BC",
+  "transferable":true,
+  "durationDays":1,
+  "expiresTime":"0300"
+  "covers":[
+    { "adults":5 }
+  ]
+}
+
+{
+  "price":20.80,
+  "name":"Group Day Ticket Berlin ABC",
+  "zone":"ABC",
+  "transferable":true,
+  "durationDays":1,
+  "expiresTime":"0300"
+  "covers":[
+    { "adults":5 }
   ]
 }
