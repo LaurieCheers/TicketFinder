@@ -1,6 +1,107 @@
 <html>
 <head>
 <script>
+function newTicketPurchases()
+{
+  return { "price":0, "purchases":[] };
+}
+
+function addPurchases(basePurchases, extraPurchases)
+{
+  var newPurchases = basePurchases.purchases.slice();
+  for(var Idx = 0; Idx < extraPurchases.purchases; ++Idx)
+  {
+    newPurchases.push(extraPurchases.purchases[Idx]);
+  }
+
+  return {
+	"price":basePurchases.price+extraPurchases.price,
+	"purchases":newPurchases,
+  };
+}
+
+function makePurchase(ticket, trip)
+{
+  var ticketPurchase = { "ticket":ticket, "date":trip.date };
+  //TODO: handle the exact trip time/date according to the rules for this ticket
+  //TODO: return undefined if this ticket cannot cover this trip
+
+  return {
+    "price":ticket.price,
+	"purchases":[ ticketPurchase ],
+  };
+}
+
+function getTripRemainder(purchase, trip)
+{
+  var result = Object.assign({}, trip);
+}
+
+function isCovered(trip)
+{
+	return trip.people.length === 0;
+}
+
+function findPurchaseOptionsForTrip(allTickets, trip)
+{
+	if(isCovered(trip))
+		return [ newTicketPurchases() ];
+
+	var ticketOptions = [];
+	
+	for(var ticketIdx = 0; ticketIdx < allTickets.length; ++ticketIdx)
+	{
+		var ticket = allTickets[ticketIdx];
+		var purchase = makePurchase(ticket, trip);
+		if(purchase === undefined)
+			continue;
+		var tripRemainder = getTripRemainder(purchase, trip);
+		var extraPurchaseOptions = findPurchaseOptionsForTrip(allTickets, tripRemainder);
+		for(var optionIdx = 0; optionIdx < extraPurchaseOptions.length; ++optionIdx)
+		{
+			ticketOptions.push(addPurchases(purchase, extraPurchaseOptions[optionIdx]));
+		}
+	}
+	
+	return ticketOptions;
+}
+
+function findTicketsForSchedule(allTickets, trips)
+{
+	var ticketOptions = [newTicketPurchases()];
+	for(var tripIdx = 0; tripIdx < trips.length; ++tripIdx)
+	{
+		var trip = trips[tripIdx];
+		for(var optionIdx = 0; optionsIdx < ticketOptions.length; ++optionsIdx)
+		{
+			var purchasesSoFar = ticketOptions[optionsIdx];
+			var tripRemainder = getTripRemainder(purchasesSoFar, trip);
+			var extraPurchaseOptions = findTicketOptionsForTrip(allTickets, tripRemainder);
+			for(var extraOptionIdx = 0; extraOptionIdx < extraPurchaseOptions.length; ++extraOptionIdx)
+			{
+				var extraPurchases = extraPurchaseOptions[extraOptionIdx];
+				newTicketOptions.push(addPurchases(purchasesSoFar, extraPurchases));
+			}
+		}
+		//TODO: discard options that are strictly worse than others, e.g. if the price is higher for no benefit
+		ticketOptions = newTicketOptions;
+	}
+	
+	var cheapestPrice = 1E9;
+	var cheapestOption = undefined;
+	for(var optionIdx = 0; optionIdx < ticketOptions.length; ++optionIdx)
+	{
+		var option = ticketOptions[optionIdx];
+		if(option.price < cheapestPrice)
+		{
+			cheapestOption = option;
+			cheapestPrice = option.price;
+		}
+	}
+	return cheapestOption;
+}
+
+
 let peopleO = [];
 let trips = [];
 function addPerson ()
