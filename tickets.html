@@ -20,23 +20,70 @@ function addPerson ()
 	checkbox.type = 'checkbox';
 	label.appendChild(checkbox);
 	label.appendChild(new Text(o.name));
+	o.checkbox = checkbox;
 	pInvolved.appendChild(label);
 }
 function addTrip (tripType)
 {
+	let base = 
+	{
+		type: tripType,
+		fromZone: document.querySelector("input[name=\"zone1\"]:checked").value,
+		toZone: document.querySelector("input[name=\"zone2\"]:checked").value,
+		people: peopleO.filter(v => v.checkbox.checked).reduce((output, value) => (output[value.name] = {age: value.age}, output), {})
+	};
 	switch (tripType)
 	{
 		case "single":
-			trips.push({type: tripType, departureTime: singleStartTime.value, arrivalTime: singleEndTime.value, shortTrip: singleShortType.value});
+			trips.push(
+				{
+					...base,
+					shortTrip: singleShortTrip.checked,
+					start: singleStartTime.value || undefined,
+					end: singleEndTime.value || undefined
+				});
 			break;
 		case "round":
+			base.type = 'single';
+			trips.push(
+				{
+					...base,
+					shortTrip: roundShortTrip.checked,
+					start: roundStartTime1.value || undefined,
+					end: roundEndTime1.value || undefined
+				});
+			let $from = base.fromZone;
+			base.fromZone = base.toZone;
+			base.toZone = $from;
+			trips.push(
+				{
+					...base,
+					shortTrip: roundShortTrip.checked,
+					start: roundStartTime2.value || undefined,
+					end: roundEndTime2.value || undefined
+				});
 			break;
 		case "day":
+			trips.push(
+				{
+					...base,
+					start: dayStartTime.value || undefined,
+					end: dayEndTime.value || undefined
+				});
 			break;
 	}
+	j.innerText = JSON.stringify(trips);
+	f.reset();
+	resetTripTypes();
+}
+function resetTripTypes ()
+{
+	for (let div of ["single", "round", "day"])
+		document.getElementById(div).style.display = 'none';
 }
 function changeTripType (tripType)
 {
+	resetTripTypes();
 	document.getElementById(tripType).style.display = 'block';
 }
 </script>
@@ -46,93 +93,98 @@ function changeTripType (tripType)
 <tr><th>Name</th><th>Age</th></tr>
 </table>
 <button onclick="addPerson()">Add Person</button>
-<fieldset>
-	<legend>Add Trip</legend>
-	<div>
-		<label>
-			<input type="date" id=travelDay />
-			Date of Travel
-		</label>
-	</div>
-	<div>
-		<label>
-			<select id=trip onchange="changeTripType(this.value)">
-				<option disabled selected>Choose...</option>
-				<option value=single>Single Trip</option>
-				<option value=round>Round Trip</option>
-				<option value=day>Day Trip</option>
-			</select>
-			Trip Type
-		</label>
-	</div>
-	<fieldset id=pInvolved>
-		<legend>Add People</legend>
-	</fieldset>
-	<table id=zone>
-		<tr>
-			<td>
-				<ul>
-					<li>
-						<label>
-							<input type=radio name=zone1 value=A />
-							A
-						</label>
-					</li>
-					<li>
-						<label>
-							<input type=radio name=zone1 value=B />
-							B
-						</label>
-					</li>
-					<li>
-						<label>
-							<input type=radio name=zone1 value=C />
-							C
-						</label>
-					</li>
-				</ul>
-			</td>
-			<td>
-				<ul>
-					<li>
-						<label>
-							<input type=radio name=zone2 value=A />
-							A
-						</label>
-					</li>
-					<li>
-						<label>
-							<input type=radio name=zone2 value=B />
-							B
-						</label>
-					</li>
-					<li>
-						<label>
-							<input type=radio name=zone2 value=C />
-							C
-						</label>
-					</li>
-				</ul>
-			</td>	
-		</tr>
-	</table>
+<form id=f>
 	<fieldset>
-		<legend>Trip Options</legend>
-		<div id=single style="display:none">
-			<input type="time" id=singleStartTime /> - <input type=time id=singleEndTime /><br>
-			<label><input type=checkbox id=singleShortTrip /> Short Trip</label><br>
-			<button onclick="addTrip('single')">Add Trip</button>
+		<legend>Add Trip</legend>
+		<div>
+			<label>
+				<input type="date" id=travelDay />
+				Date of Travel
+			</label>
 		</div>
-		<div id=round style="display:none">
-			<input type="time" id=roundStartTime1 /> - <input type=time id=roundEndTime1 /><br>
-			<input type="time" id=roundStartTime2 /> - <input type=time id=roundEndTime2 /><br>
-			<label><input type=checkbox id=singleShortTrip /> Short Trip</label><br>
-			<button onclick="addTrip('round')">Add Trip</button>
+		<div>
+			<label>
+				<select id=trip onchange="changeTripType(this.value)">
+					<option disabled selected>Choose...</option>
+					<option value=single>Single Trip</option>
+					<option value=round>Round Trip</option>
+					<option value=day>Unlimited Travel between 2 times</option>
+				</select>
+				Trip Type
+			</label>
 		</div>
-		<div id=day style="display:none">
-			<button onclick="addTrip('day')">Add Trip</button>
-		</div>
-  	</fieldset>
-</fieldset>
+		<fieldset id=pInvolved>
+			<legend>Add People</legend>
+		</fieldset>
+		<table id=zone>
+			<tr>
+				<td>
+					<ul>
+						<li>
+							<label>
+								<input type=radio name=zone1 value=A />
+								A
+							</label>
+						</li>
+						<li>
+							<label>
+								<input type=radio name=zone1 value=B />
+								B
+							</label>
+						</li>
+						<li>
+							<label>
+								<input type=radio name=zone1 value=C />
+								C
+							</label>
+						</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>
+							<label>
+								<input type=radio name=zone2 value=A />
+								A
+							</label>
+						</li>
+						<li>
+							<label>
+								<input type=radio name=zone2 value=B />
+								B
+							</label>
+						</li>
+						<li>
+							<label>
+								<input type=radio name=zone2 value=C />
+								C
+							</label>
+						</li>
+					</ul>
+				</td>	
+			</tr>
+		</table>
+		<fieldset>
+			<legend>Trip Options</legend>
+			<div id=single style="display:none">
+				<input type="time" id=singleStartTime /> - <input type=time id=singleEndTime /><br>
+				<label><input type=checkbox id=singleShortTrip /> Short Trip</label><br>
+				<button type=button onclick="addTrip('single')">Add Trip</button>
+			</div>
+			<div id=round style="display:none">
+				<input type="time" id=roundStartTime1 /> - <input type=time id=roundEndTime1 /><br>
+				<input type="time" id=roundStartTime2 /> - <input type=time id=roundEndTime2 /><br>
+				<label><input type=checkbox id=roundShortTrip /> Short Trip</label><br>
+				<button type=button onclick="addTrip('round')">Add Trip</button>
+			</div>
+			<div id=day style="display:none">
+				<input type="time" id=dayStartTime /> - <input type=time id=dayEndTime /><br>
+				<button type=button onclick="addTrip('day')">Add Trip</button>
+			</div>
+		</fieldset>
+	</fieldset>
+</form>
+<textarea id=j>
+</textarea>
 </body>
 </html>
