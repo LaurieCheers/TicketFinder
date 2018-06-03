@@ -56,7 +56,7 @@
   "zone":"ABC",
   "startTime":"0900",
   "dayType":"Week",
-  "durationHours":30,
+  "durationHours":18,
   "transferable":false,
   "covers":[
     { "adults":5 },
