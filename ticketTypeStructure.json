@@ -3,11 +3,11 @@
   "name":"Berlin ABC Weekly Ticket",
   "zone":"ABC",
   "durationDays":7,
-  "expiresTime":"0000",
+  "expiresTime":"00:00",
   "transferable":true,
   "covers":[
     { "adults":1, "dayType":"Week" },
-    { "adults":2, "children":3, "dayType":"Week", "startTime":"2000", "endTime":"0000" },
+    { "adults":2, "children":3, "dayType":"Week", "startTime":"20:00", "endTime":"00:00" },
     { "adults":2, "children":3, "dayType":"Weekend" }
   ]
 },
@@ -16,11 +16,11 @@
   "name":"Berlin AB Weekly Ticket",
   "zone":"AB",
   "durationDays":7,
-  "expiresTime":"0000",
+  "expiresTime":"00:00",
   "transferable":true,
   "covers":[
     { "adults":1, "dayType":"Week" },
-    { "adults":2, "children":3, "dayType":"Week", "startTime":"2000", "endTime":"0000" },
+    { "adults":2, "children":3, "dayType":"Week", "startTime":"20:00", "endTime":"00:00" },
     { "adults":2, "children":3, "dayType":"Weekend" }
   ]
 },
@@ -29,11 +29,11 @@
   "name":"Berlin BC Weekly Ticket",
   "zone":"BC",
   "durationDays":7,
-  "expiresTime":"0000",
+  "expiresTime":"00:00",
   "transferable":true,
   "covers":[
     { "adults":1, "dayType":"Week" },
-    { "adults":2, "children":3, "dayType":"Week", "startTime":"2000", "endTime":"0000" },
+    { "adults":2, "children":3, "dayType":"Week", "startTime":"20:00", "endTime":"00:00" },
     { "adults":2, "children":3, "dayType":"Weekend" }
   ]
 },
@@ -41,7 +41,7 @@
   "price":29,
   "name":"Berlin-Brandenburg-Ticket (Weekend)",
   "zone":"ABC",
-  "startTime":"0000",
+  "startTime":"00:00",
   "dayType":"Weekend",
   "durationHours":27,
   "transferable":false,
@@ -54,7 +54,7 @@
   "price":29,
   "name":"Berlin-Brandenburg-Ticket (Week)",
   "zone":"ABC",
-  "startTime":"0900",
+  "startTime":"09:00",
   "dayType":"Week",
   "durationHours":18,
   "transferable":false,
@@ -67,7 +67,7 @@
   "price":22,
   "name":"Berlin-Brandenburg-Ticket (Night)",
   "zone":"ABC",
-  "startTime":"1800",
+  "startTime":"18:00",
   "durationHours":13,
   "transferable":false,
   "covers":[
@@ -174,7 +174,7 @@
   "zone":"AB",
   "transferable":true,
   "durationDays":1,
-  "expiresTime":"0300",
+  "expiresTime":"03:00",
   "covers":[
     { "children":1 }
   ]
@@ -185,7 +185,7 @@
   "zone":"BC",
   "transferable":true,
   "durationDays":1,
-  "expiresTime":"0300",
+  "expiresTime":"03:00",
   "covers":[
     { "children":1 }
   ]
@@ -196,7 +196,7 @@
   "zone":"ABC",
   "transferable":true,
   "durationDays":1,
-  "expiresTime":"0300",
+  "expiresTime":"03:00",
   "covers":[
     { "children":1 }
   ]
@@ -207,7 +207,7 @@
   "zone":"AB",
   "transferable":true,
   "durationDays":1,
-  "expiresTime":"0300",
+  "expiresTime":"03:00",
   "covers":[
     { "adults":1, "children":3 }
   ]
@@ -218,7 +218,7 @@
   "zone":"BC",
   "transferable":true,
   "durationDays":1,
-  "expiresTime":"0300",
+  "expiresTime":"03:00",
   "covers":[
     { "adults":1, "children":3 }
   ]
@@ -229,7 +229,7 @@
   "zone":"ABC",
   "transferable":true,
   "durationDays":1,
-  "expiresTime":"0300",
+  "expiresTime":"03:00",
   "covers":[
     { "adults":1, "children":3 }
   ]
@@ -240,7 +240,7 @@
   "zone":"AB",
   "transferable":true,
   "durationDays":1,
-  "expiresTime":"0300",
+  "expiresTime":"03:00",
   "covers":[
     { "adults":5 }
   ]
@@ -251,7 +251,7 @@
   "zone":"BC",
   "transferable":true,
   "durationDays":1,
-  "expiresTime":"0300",
+  "expiresTime":"03:00",
   "covers":[
     { "adults":5 }
   ]
@@ -262,7 +262,7 @@
   "zone":"ABC",
   "transferable":true,
   "durationDays":1,
-  "expiresTime":"0300",
+  "expiresTime":"03:00",
   "covers":[
     { "adults":5 }
   ]
