@@ -120,7 +120,7 @@ function getEndTime (validationTime, ticket)
 {
 	let cloned = new Date(validationTime.valueOf());
 	if (ticket.durationHours !== undefined)
-		cloned.setHours(cloned.getHours() + tickets.durationHours);
+		cloned.setHours(cloned.getHours() + ticket.durationHours);
 	else
 	{
 		cloned.setDate(cloned.getDate() + ticket.durationDays);
