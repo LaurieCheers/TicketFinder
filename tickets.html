@@ -24,8 +24,8 @@ function addPurchases(basePurchases, extraPurchases)
 
 function makePurchase(ticket, trip)
 {
-  var ticketPurchase = { "ticket":ticket, "date":trip.date };
-  //TODO: handle the exact trip time/date according to the rules for this ticket
+  var ticketPurchase = { "ticket":ticket, "date":new Date(trip.day + " "+trip.start) };
+  //TODO: pick the correct start date/time according to the rules for this ticket
   //TODO: return undefined if this ticket cannot cover this trip
 
   return {
@@ -34,9 +34,23 @@ function makePurchase(ticket, trip)
   };
 }
 
-function getTripRemainder(purchase, trip)
+function getTripRemainder(allPurchases, trip)
 {
-  var result = Object.assign({}, trip);
+  // things that might be partially covered: time range, people, zones
+  
+  for(let purchase of allPurchases.purchases)
+  {
+    if(purchase.ticket.shortTrip && !trip.shortTrip)
+		continue;
+	
+    var purchaseDates = getPurchaseDateRange(purchase);
+	var tripDates = getTripDateRange(trip);
+	var excludedTime = subtractDateRange(tripDates, purchaseDates);
+	if(excludedTime === undefined)
+	{
+	  
+	}
+  }
 }
 
 function isCovered(trip)
