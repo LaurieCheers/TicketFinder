@@ -130,6 +130,28 @@ function getEndTime (validationTime, ticket)
 	}
 	return cloned;
 }
+function getRangeCovered (purchase, trip)
+{
+	let endTime = getEndTime(purchase.date, purchase.ticket);
+	let tripStart = new Date(trip.day + " " + trip.start);
+	let tripEnd = new Date(trip.day + " " + trip.end);
+	let firstEnd = endTime > tripEnd ? tripEnd : endTime;
+	let lastStart = tripStart > purchase.date ? tripStart : tripEnd;
+	let result = {remainders: []};
+	if (firstEnd >= lastStart)
+	{
+		result.covered = {"start": lastStart, "end": firstEnd};
+		if (firstEnd < tripEnd)
+			result.remainders.push({"start": firstEnd, "end": tripEnd});
+		if (lastStart < tripStart)
+			result.remainders.push({"start": lastStart, "end": tripStart});
+	}
+	else
+	{
+		result.remainders.push({"start":tripStart, "end":tripEnd});
+	}
+	return result;
+}
 
 let peopleO = [];
 let trips = [];
