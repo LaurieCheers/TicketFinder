@@ -366,6 +366,11 @@ function findBestDeal ()
 {
 	let result = findCheapestTicketsForSchedule(tickets, trips);
 }
+function test()
+{
+	trips = [{"type":"single","fromZone":"A","toZone":"A","people":{"adults":["Daddy"],"children":[]},"day":"2018-06-09","shortTrip":false,"start":"09:00","end":"10:00"}];
+	findBestDeal();
+}
 </script>
 </head>
 <body onload="load()">
@@ -472,6 +477,7 @@ function findBestDeal ()
 		</fieldset>
 	</fieldset>
 </form>
-<button onclick="findBestDeal()">Calculate Best Deal</button>
+<button onclick="findBestDeal()">Calculate Best Deal</button><br>
+<button onclick="test()">Test</button>
 </body>
 </html>
