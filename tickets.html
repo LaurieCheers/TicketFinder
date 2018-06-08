@@ -34,23 +34,106 @@ function makePurchase(ticket, trip)
   };
 }
 
-function getTripRemainder(allPurchases, trip)
+function getPersonType (person)
 {
-  // things that might be partially covered: time range, people, zones
-  
-  for(let purchase of allPurchases.purchases)
-  {
-    if(purchase.ticket.shortTrip && !trip.shortTrip)
-		continue;
+	return person.age <= 14 ? "children" : "adults";
+}
+
+function getPeopleCovered (trip)
+{
+	let result = {adults: [], children: [], people: trip.people};
+	for (let person in trip.people)
+		result[getPersonType(person)].push(person);
+	return result;
+}
+
+function getRemainingPeople (ticket, trip)
+{
+	let people = getPeopleCovered(trip);
+	let covers = ticket.covers;
+	let childrenOnAdultTickets = Math.max(0, covers.adults - trip.adults.length);
+	let newAdults = trip.adults.slice(0, Math.max(0, trip.adults.length - covers.adults));
+	let newChildren = trip.children.slice(0, Math.max(0, trip.children.length - (covers.children + childrenOnAdultTickets)));
+	if (!(newAdults.length === trip.adults.length && newChildren.length === trip.children.length)) 
+		return {adults: newAdults, children: newChildren};
+	else
+		return undefined;
+}
+
+function getRemainingZones (ticket, trip)
+{
+	let zonesNeeded = [trip.fromZone, trip.toZone];
+	for (let zone of ticket.zone)
+		if (zonesNeeded.contains(zone))
+			zonesNeeded = zonesNeeded.filter(v => v !== zone);
+	if (zonesNeeded.length !== 2)
+		return zonesNeeded;
+	else
+		return undefined;
+}
+
+function getTripRemainders(purchase, trip)
+{
+	// things that might be partially covered: time range, people, zones
+	let results = [];
 	
-    var purchaseDates = getPurchaseDateRange(purchase);
-	var tripDates = getTripDateRange(trip);
-	var excludedTime = subtractDateRange(tripDates, purchaseDates);
-	if(excludedTime === undefined)
+	if(purchase.ticket.shortTrip && !trip.shortTrip)
+		return undefined;
+
+	if(purchase.ticket.isExtension && !trip.isExtension)
+		return undefined;
+
+	let rangeCovered = getRangeCovered(purchase, trip);
+	if (rangeCovered.covered === undefined)
+		return undefined;
+
+	let baseTrip = {...trip, start:rangeCovered.covered.start, end:rangeCovered.covered.end};
+	let newTrip = {...baseTrip, people: getRemainingPeople(purchase.ticket, trip)};
+	let newZones = getRemainingZones(purchase.trip, trip);
+
+	if (newTrip.people === undefined || newZones === undefined)
+		return undefined;
+
+	if (newZones.length === 1)
 	{
-	  
+		let extensionTrip = {...baseTrip, isExtension:true, fromZone:newZones[0], toZone:newZones[0]};
+		results.push(extensionTrip);
 	}
-  }
+
+	if(newZones.length !== 0 || newTrip.people.adults.length !== 0 || newTrip.people.children.length !== 0)
+	{
+		results.push(newTrip);
+	}
+		
+	for (let remainder of rangeCovered.remainders)
+	{
+		results.push({...trip, start:remainder.start, end:remainder.end});
+	}
+	
+	return results;
+}
+
+function getTripRemaindersAfterPurchases(purchases, trip)
+{
+	var remainders = [trip];
+	for(let purchase of purchases)
+	{
+		var nextRemainders = [];
+		for(let remainder of remainders)
+		{
+			var tripRemainders = getTripRemainders(purchase, remainder);
+			if(tripRemainders !== undefined)
+			{
+				for(let tripRemainder of tripRemainders)
+				{
+					nextRemainders.push(tripRemainder);
+				}
+			}
+		}
+		
+		remainders = nextRemainders;
+	}
+	return remainders;
 }
 
 function isCovered(trip)
@@ -60,9 +143,6 @@ function isCovered(trip)
 
 function findPurchaseOptionsForTrip(allTickets, trip)
 {
-	if(isCovered(trip))
-		return [ newTicketPurchases() ];
-
 	var ticketOptions = [];
 	
 	for(var ticketIdx = 0; ticketIdx < allTickets.length; ++ticketIdx)
@@ -71,38 +151,67 @@ function findPurchaseOptionsForTrip(allTickets, trip)
 		var purchase = makePurchase(ticket, trip);
 		if(purchase === undefined)
 			continue;
-		var tripRemainder = getTripRemainder(purchase, trip);
-		var extraPurchaseOptions = findPurchaseOptionsForTrip(allTickets, tripRemainder);
-		for(var optionIdx = 0; optionIdx < extraPurchaseOptions.length; ++optionIdx)
+		var tripRemainders = getTripRemainders(purchase.purchases[0], trip);
+		if(tripRemainders === undefined)
+			continue;
+
+		if(tripRemainders === [])
 		{
-			ticketOptions.push(addPurchases(purchase, extraPurchaseOptions[optionIdx]));
+			ticketOptions.push(purchase);
+		}
+		else
+		{
+			let furtherOptions = findTicketOptionsForSchedule(allTickets, tripRemainders);
+			for(let option of furtherOptions)
+			{
+				ticketOptions.push(addPurchases(purchase, option));
+			}
 		}
 	}
 	
 	return ticketOptions;
 }
 
-function findTicketsForSchedule(allTickets, trips)
+function findTicketOptionsForSchedule(allTickets, trips)
 {
-	var ticketOptions = [newTicketPurchases()];
-	for(var tripIdx = 0; tripIdx < trips.length; ++tripIdx)
+	let purchaseOptions = [];
+	let activeWorlds = [{purchases:newTicketPurchases(), trips:trips}];
+	while(activeWorlds.length > 0)
 	{
-		var trip = trips[tripIdx];
-		for(var optionIdx = 0; optionsIdx < ticketOptions.length; ++optionsIdx)
+		let world = activeWorlds.pop();
+
+		if(world.trips.length === 0)
 		{
-			var purchasesSoFar = ticketOptions[optionsIdx];
-			var tripRemainder = getTripRemainder(purchasesSoFar, trip);
-			var extraPurchaseOptions = findTicketOptionsForTrip(allTickets, tripRemainder);
-			for(var extraOptionIdx = 0; extraOptionIdx < extraPurchaseOptions.length; ++extraOptionIdx)
+			purchaseOptions.push(world.purchases);
+		}
+		else
+		{
+			let trip = world.trips[0];
+			let extraPurchaseOptions = findPurchaseOptionsForTrip(allTickets, trip);
+			for(let extraPurchases of extraPurchaseOptions)
 			{
-				var extraPurchases = extraPurchaseOptions[extraOptionIdx];
-				newTicketOptions.push(addPurchases(purchasesSoFar, extraPurchases));
+				let remainingTrips = [];
+				for(let otherTrip of trips)
+				{
+					if(otherTrip === trip)
+						continue;
+					
+					let remainders = getTripRemaindersAfterPurchases(extraPurchases, otherTrip);
+					for(let remainder of remainders)
+					{
+						remainingTrips.push(remainder);
+					}
+				}
+				activeWorlds.push( {purchases:addPurchases(purchasesSoFar, extraPurchases), trips:remainingTrips} );
 			}
 		}
-		//TODO: discard options that are strictly worse than others, e.g. if the price is higher for no benefit
-		ticketOptions = newTicketOptions;
 	}
-	
+	return ticketOptions;
+}
+
+function findCheapestTicketsForSchedule(allTickets, trips)
+{
+	let ticketOptions = findTicketOptionsForSchedule(allTickets, trips);
 	var cheapestPrice = 1E9;
 	var cheapestOption = undefined;
 	for(var optionIdx = 0; optionIdx < ticketOptions.length; ++optionIdx)
@@ -136,7 +245,7 @@ function getRangeCovered (purchase, trip)
 	let tripStart = new Date(trip.day + " " + trip.start);
 	let tripEnd = new Date(trip.day + " " + trip.end);
 	let firstEnd = endTime > tripEnd ? tripEnd : endTime;
-	let lastStart = tripStart > purchase.date ? tripStart : tripEnd;
+	let lastStart = tripStart > purchase.date ? tripStart : purchase.date;
 	let result = {remainders: []};
 	if (firstEnd >= lastStart)
 	{
@@ -182,7 +291,7 @@ function addTrip (tripType)
 		type: tripType,
 		fromZone: document.querySelector("input[name=\"zone1\"]:checked").value,
 		toZone: document.querySelector("input[name=\"zone2\"]:checked").value,
-		people: peopleO.filter(v => v.checkbox.checked).reduce((output, value) => (output[value.name] = {age: value.age}, output), {}),
+		people: peopleO.filter(v => v.checkbox.checked).reduce((output, value) => (output[getPersonType(value)].push(value.name), output), {adults: [], children: []}),
 		day: travelDay.value
 	};
 	switch (tripType)
@@ -252,6 +361,10 @@ function load ()
 		option.appendChild(new Text(tickets[idx].name));
 		ticketTypeSelect.appendChild(option);
 	}
+}
+function findBestDeal ()
+{
+	let result = findCheapestTicketsForSchedule(tickets, trips);
 }
 </script>
 </head>
@@ -359,6 +472,6 @@ function load ()
 		</fieldset>
 	</fieldset>
 </form>
-<button>Calculate Best Deal</button>
+<button onclick="findBestDeal()">Calculate Best Deal</button>
 </body>
 </html>
