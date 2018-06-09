@@ -6,9 +6,9 @@
   "expiresTime":"00:00",
   "transferable":true,
   "covers":[
-    { "adults":1, "dayType":"Week" },
     { "adults":2, "children":3, "dayType":"Week", "startTime":"20:00", "endTime":"00:00" },
     { "adults":2, "children":3, "dayType":"Weekend" }
+    { "adults":1 },
   ]
 },
 {
@@ -19,9 +19,9 @@
   "expiresTime":"00:00",
   "transferable":true,
   "covers":[
-    { "adults":1, "dayType":"Week" },
     { "adults":2, "children":3, "dayType":"Week", "startTime":"20:00", "endTime":"00:00" },
     { "adults":2, "children":3, "dayType":"Weekend" }
+    { "adults":1 },
   ]
 },
 {
@@ -32,7 +32,7 @@
   "expiresTime":"00:00",
   "transferable":true,
   "covers":[
-    { "adults":1, "dayType":"Week" },
+    { "adults":1 },
     { "adults":2, "children":3, "dayType":"Week", "startTime":"20:00", "endTime":"00:00" },
     { "adults":2, "children":3, "dayType":"Weekend" }
   ]

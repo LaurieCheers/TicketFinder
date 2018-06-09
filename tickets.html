@@ -1,37 +1,39 @@
 <html>
 <head>
 <script>
-let tickets = [{"price":37.5,"name":"Berlin ABC Weekly Ticket","zone":"ABC","durationDays":7,"expiresTime":"00:00","transferable":true,"covers":[{"adults":1,"dayType":"Week"},{"adults":2,"children":3,"dayType":"Week","startTime":"20:00","endTime":"00:00"},{"adults":2,"children":3,"dayType":"Weekend"}]},{"price":30,"name":"Berlin AB Weekly Ticket","zone":"AB","durationDays":7,"expiresTime":"00:00","transferable":true,"covers":[{"adults":1,"dayType":"Week"},{"adults":2,"children":3,"dayType":"Week","startTime":"20:00","endTime":"00:00"},{"adults":2,"children":3,"dayType":"Weekend"}]},{"price":31.4,"name":"Berlin BC Weekly Ticket","zone":"BC","durationDays":7,"expiresTime":"00:00","transferable":true,"covers":[{"adults":1,"dayType":"Week"},{"adults":2,"children":3,"dayType":"Week","startTime":"20:00","endTime":"00:00"},{"adults":2,"children":3,"dayType":"Weekend"}]},{"price":29,"name":"Berlin-Brandenburg-Ticket (Weekend)","zone":"ABC","startTime":"00:00","dayType":"Weekend","durationHours":27,"transferable":false,"covers":[{"adults":5},{"adults":2,"children":100}]},{"price":29,"name":"Berlin-Brandenburg-Ticket (Week)","zone":"ABC","startTime":"09:00","dayType":"Week","durationHours":18,"transferable":false,"covers":[{"adults":5},{"adults":2,"children":100}]},{"price":22,"name":"Berlin-Brandenburg-Ticket (Night)","zone":"ABC","startTime":"18:00","durationHours":13,"transferable":false,"covers":[{"adults":5},{"adults":2,"children":100}]},{"price":1.7,"name":"Short Trip Ticket","zone":"ABC","shortTrip":true,"transferable":true,"durationHours":2,"covers":[{"adults":1}]},{"price":1.3,"name":"Short Trip Ticket Reduced","zone":"ABC","shortTrip":true,"transferable":true,"durationHours":2,"covers":[{"children":1}]},{"price":1.7,"name":"Ticket Berlin AB (Reduced)","zone":"AB","transferable":true,"durationHours":2,"covers":[{"children":1}]},{"price":2.2,"name":"Ticket Berlin BC (Reduced)","zone":"BC","transferable":true,"durationHours":2,"covers":[{"children":1}]},{"price":2.5,"name":"Ticket Berlin ABC (Reduced)","zone":"ABC","transferable":true,"durationHours":2,"covers":[{"children":1}]},{"price":2.8,"name":"Ticket Berlin AB","zone":"AB","transferable":true,"durationHours":2,"covers":[{"adults":1}]},{"price":3.1,"name":"Ticket Berlin BC","zone":"BC","transferable":true,"durationHours":2,"covers":[{"adults":1}]},{"price":3.4,"name":"Ticket Berlin ABC","zone":"ABC","transferable":true,"durationHours":2,"covers":[{"adults":1}]},{"price":1.6,"name":"Extension Ticket Berlin","zone":"ABC","isExtension":true,"transferable":true,"durationHours":2,"covers":[{"adults":1}]},{"price":4.7,"name":"Day Ticket Berlin AB (Reduced)","zone":"AB","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"children":1}]},{"price":5.1,"name":"Day Ticket Berlin BC (Reduced)","zone":"BC","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"children":1}]},{"price":5.3,"name":"Day Ticket Berlin ABC (Reduced)","zone":"ABC","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"children":1}]},{"price":7,"name":"Day Ticket Berlin AB","zone":"AB","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"adults":1,"children":3}]},{"price":7.4,"name":"Day Ticket Berlin BC","zone":"BC","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"adults":1,"children":3}]},{"price":7.7,"name":"Day Ticket Berlin ABC","zone":"ABC","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"adults":1,"children":3}]},{"price":19.9,"name":"Group Day Ticket Berlin AB","zone":"AB","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"adults":5}]},{"price":20.6,"name":"Group Day Ticket Berlin BC","zone":"BC","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"adults":5}]},{"price":20.8,"name":"Group Day Ticket Berlin ABC","zone":"ABC","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"adults":5}]}];
+let tickets = [{"price":37.5,"name":"Berlin ABC Weekly Ticket","zone":"ABC","durationDays":7,"expiresTime":"00:00","transferable":true,"covers":[{"adults":2,"children":3,"dayType":"Week","startTime":"20:00","endTime":"00:00"},{"adults":2,"children":3,"dayType":"Weekend"},{"adults":1}]},{"price":30,"name":"Berlin AB Weekly Ticket","zone":"AB","durationDays":7,"expiresTime":"00:00","transferable":true,"covers":[{"adults":2,"children":3,"dayType":"Week","startTime":"20:00","endTime":"00:00"},{"adults":2,"children":3,"dayType":"Weekend"},{"adults":1}]},{"price":31.4,"name":"Berlin BC Weekly Ticket","zone":"BC","durationDays":7,"expiresTime":"00:00","transferable":true,"covers":[{"adults":2,"children":3,"dayType":"Week","startTime":"20:00","endTime":"00:00"},{"adults":2,"children":3,"dayType":"Weekend"},{"adults":1}]},{"price":29,"name":"Berlin-Brandenburg-Ticket (Weekend)","zone":"ABC","startTime":"00:00","dayType":"Weekend","durationHours":27,"transferable":false,"covers":[{"adults":5},{"adults":2,"children":100}]},{"price":29,"name":"Berlin-Brandenburg-Ticket (Week)","zone":"ABC","startTime":"09:00","dayType":"Week","durationHours":18,"transferable":false,"covers":[{"adults":5},{"adults":2,"children":100}]},{"price":22,"name":"Berlin-Brandenburg-Ticket (Night)","zone":"ABC","startTime":"18:00","durationHours":13,"transferable":false,"covers":[{"adults":5},{"adults":2,"children":100}]},{"price":1.7,"name":"Short Trip Ticket","zone":"ABC","shortTrip":true,"transferable":true,"durationHours":2,"covers":[{"adults":1}]},{"price":1.3,"name":"Short Trip Ticket Reduced","zone":"ABC","shortTrip":true,"transferable":true,"durationHours":2,"covers":[{"children":1}]},{"price":1.7,"name":"Ticket Berlin AB (Reduced)","zone":"AB","transferable":true,"durationHours":2,"covers":[{"children":1}]},{"price":2.2,"name":"Ticket Berlin BC (Reduced)","zone":"BC","transferable":true,"durationHours":2,"covers":[{"children":1}]},{"price":2.5,"name":"Ticket Berlin ABC (Reduced)","zone":"ABC","transferable":true,"durationHours":2,"covers":[{"children":1}]},{"price":2.8,"name":"Ticket Berlin AB","zone":"AB","transferable":true,"durationHours":2,"covers":[{"adults":1}]},{"price":3.1,"name":"Ticket Berlin BC","zone":"BC","transferable":true,"durationHours":2,"covers":[{"adults":1}]},{"price":3.4,"name":"Ticket Berlin ABC","zone":"ABC","transferable":true,"durationHours":2,"covers":[{"adults":1}]},{"price":1.6,"name":"Extension Ticket Berlin","zone":"ABC","isExtension":true,"transferable":true,"durationHours":2,"covers":[{"adults":1}]},{"price":4.7,"name":"Day Ticket Berlin AB (Reduced)","zone":"AB","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"children":1}]},{"price":5.1,"name":"Day Ticket Berlin BC (Reduced)","zone":"BC","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"children":1}]},{"price":5.3,"name":"Day Ticket Berlin ABC (Reduced)","zone":"ABC","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"children":1}]},{"price":7,"name":"Day Ticket Berlin AB","zone":"AB","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"adults":1,"children":3}]},{"price":7.4,"name":"Day Ticket Berlin BC","zone":"BC","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"adults":1,"children":3}]},{"price":7.7,"name":"Day Ticket Berlin ABC","zone":"ABC","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"adults":1,"children":3}]},{"price":19.9,"name":"Group Day Ticket Berlin AB","zone":"AB","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"adults":5}]},{"price":20.6,"name":"Group Day Ticket Berlin BC","zone":"BC","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"adults":5}]},{"price":20.8,"name":"Group Day Ticket Berlin ABC","zone":"ABC","transferable":true,"durationDays":1,"expiresTime":"03:00","covers":[{"adults":5}]}];
 let ticketsAlreadyBought = [];
 function newTicketPurchases()
 {
-  return { "price":0, "purchases":[] };
+	return { "price":0, "purchases":[] };
 }
 
 function addPurchases(basePurchases, extraPurchases)
 {
-  var newPurchases = basePurchases.purchases.slice();
-  for(var Idx = 0; Idx < extraPurchases.purchases; ++Idx)
-  {
-    newPurchases.push(extraPurchases.purchases[Idx]);
-  }
+	var newPurchases = basePurchases.purchases.slice();
+	for(let extraPurchase of extraPurchases.purchases)
+	{
+		newPurchases.push(extraPurchase);
+	}
 
-  return {
-	"price":basePurchases.price+extraPurchases.price,
-	"purchases":newPurchases,
-  };
+	return {
+		"price":basePurchases.price+extraPurchases.price,
+		"purchases":newPurchases,
+	};
 }
 
 function makePurchase(ticket, trip)
 {
-  var ticketPurchase = { "ticket":ticket, "date":new Date(trip.day + " "+trip.start) };
-  //TODO: pick the correct start date/time according to the rules for this ticket
-  //TODO: return undefined if this ticket cannot cover this trip
+	var ticketPurchase = { "ticket":ticket, "date":new Date(trip.day + " "+trip.start) };
+	//TODO: pick the correct start date/time according to the rules for this ticket
+	//TODO: return undefined if this ticket cannot cover this trip
+	if(!isValidDayType(ticket.dayType, trip.start))
+		return undefined;
 
-  return {
-    "price":ticket.price,
-	"purchases":[ ticketPurchase ],
-  };
+	return {
+		"price":ticket.price,
+		"purchases":[ ticketPurchase ],
+	};
 }
 
 function getPersonType (person)
@@ -50,21 +52,47 @@ function getPeopleCovered (trip)
 function getRemainingPeople (ticket, trip)
 {
 	let people = getPeopleCovered(trip);
-	let covers = ticket.covers;
-	let childrenOnAdultTickets = Math.max(0, covers.adults - trip.adults.length);
-	let newAdults = trip.adults.slice(0, Math.max(0, trip.adults.length - covers.adults));
-	let newChildren = trip.children.slice(0, Math.max(0, trip.children.length - (covers.children + childrenOnAdultTickets)));
-	if (!(newAdults.length === trip.adults.length && newChildren.length === trip.children.length)) 
-		return {adults: newAdults, children: newChildren};
-	else
-		return undefined;
+	for(let covers of ticket.covers)
+	{
+		//TODO: generate more than one result if there's more than one valid "covers" clause
+		if(!isValidDayType(covers.dayType, trip.start))
+			continue;
+		if(covers.startTime !== undefined)
+		{
+			//TODO: if the trip is partially outside this time range, split it into two trips
+			let coverStartDate = new Date(trip.start);
+			coverStartDate.setHours(covers.startTime);
+			if(trip.start < coverStartDate)
+				continue;
+			
+			let coverEndDate = new Date(trip.end);
+			coverEndDate.setHours(covers.endTime);
+			if(trip.end > coverEndDate)
+				continue;
+		}
+
+		let adultsCovered = covers.adults;
+		if(adultsCovered === undefined)
+			adultsCovered = 0;
+		let childrenCovered = covers.children;
+		if(childrenCovered === undefined)
+			childrenCovered = 0;
+		let childrenOnAdultTickets = Math.max(0, adultsCovered - trip.people.adults.length);
+
+		let newAdults = trip.people.adults.slice(0, Math.max(0, trip.people.adults.length - adultsCovered));
+		let newChildren = trip.people.children.slice(0, Math.max(0, trip.people.children.length - (childrenCovered + childrenOnAdultTickets)));
+		
+		if (newAdults.length !== trip.people.adults.length || newChildren.length !== trip.people.children.length)
+			return {adults: newAdults, children: newChildren};
+	}
+	return undefined;
 }
 
 function getRemainingZones (ticket, trip)
 {
 	let zonesNeeded = [trip.fromZone, trip.toZone];
 	for (let zone of ticket.zone)
-		if (zonesNeeded.contains(zone))
+		if (zonesNeeded.includes(zone))
 			zonesNeeded = zonesNeeded.filter(v => v !== zone);
 	if (zonesNeeded.length !== 2)
 		return zonesNeeded;
@@ -89,7 +117,7 @@ function getTripRemainders(purchase, trip)
 
 	let baseTrip = {...trip, start:rangeCovered.covered.start, end:rangeCovered.covered.end};
 	let newTrip = {...baseTrip, people: getRemainingPeople(purchase.ticket, trip)};
-	let newZones = getRemainingZones(purchase.trip, trip);
+	let newZones = getRemainingZones(purchase.ticket, trip);
 
 	if (newTrip.people === undefined || newZones === undefined)
 		return undefined;
@@ -141,6 +169,19 @@ function isCovered(trip)
 	return trip.people.length === 0;
 }
 
+function isValidDayType(dayType, date)
+{
+	if(dayType === undefined)
+		return true;
+	let dayIndex = date.getDay();
+
+	if(dayType === "Weekend")
+		return dayIndex === 0 || dayIndex === 6; // sunday is 0, saturday is 6
+	if(dayType === "Week")
+		return dayIndex !== 0 && dayIndex !== 6;
+	return true;
+}
+
 function findPurchaseOptionsForTrip(allTickets, trip)
 {
 	var ticketOptions = [];
@@ -155,7 +196,7 @@ function findPurchaseOptionsForTrip(allTickets, trip)
 		if(tripRemainders === undefined)
 			continue;
 
-		if(tripRemainders === [])
+		if(tripRemainders.length === 0)
 		{
 			ticketOptions.push(purchase);
 		}
@@ -175,38 +216,42 @@ function findPurchaseOptionsForTrip(allTickets, trip)
 function findTicketOptionsForSchedule(allTickets, trips)
 {
 	let purchaseOptions = [];
-	let activeWorlds = [{purchases:newTicketPurchases(), trips:trips}];
+	let activeWorlds = [];
+	
+	if(trips.length === 0)
+		purchaseOptions.push(newTicketPurchases());
+	else
+		activeWorlds.push({purchases:newTicketPurchases(), trips:trips});
+
 	while(activeWorlds.length > 0)
 	{
 		let world = activeWorlds.pop();
-
-		if(world.trips.length === 0)
+		let trip = world.trips[0];
+		let extraPurchaseOptions = findPurchaseOptionsForTrip(allTickets, trip);
+		
+		for(let extraPurchases of extraPurchaseOptions)
 		{
-			purchaseOptions.push(world.purchases);
-		}
-		else
-		{
-			let trip = world.trips[0];
-			let extraPurchaseOptions = findPurchaseOptionsForTrip(allTickets, trip);
-			for(let extraPurchases of extraPurchaseOptions)
+			let remainingTrips = [];
+			for(let otherTrip of trips)
 			{
-				let remainingTrips = [];
-				for(let otherTrip of trips)
+				if(otherTrip === trip)
+					continue;
+				
+				let remainders = getTripRemaindersAfterPurchases(extraPurchases, otherTrip);
+				for(let remainder of remainders)
 				{
-					if(otherTrip === trip)
-						continue;
-					
-					let remainders = getTripRemaindersAfterPurchases(extraPurchases, otherTrip);
-					for(let remainder of remainders)
-					{
-						remainingTrips.push(remainder);
-					}
+					remainingTrips.push(remainder);
 				}
-				activeWorlds.push( {purchases:addPurchases(purchasesSoFar, extraPurchases), trips:remainingTrips} );
 			}
+			
+			let newPurchaseList = addPurchases(world.purchases, extraPurchases);
+			if(remainingTrips.length === 0)
+				purchaseOptions.push(newPurchaseList)
+			else
+				activeWorlds.push( {purchases:addPurchases(world.purchases, extraPurchases), trips:remainingTrips} );
 		}
 	}
-	return ticketOptions;
+	return purchaseOptions;
 }
 
 function findCheapestTicketsForSchedule(allTickets, trips)
@@ -239,11 +284,12 @@ function getEndTime (validationTime, ticket)
 	}
 	return cloned;
 }
+
 function getRangeCovered (purchase, trip)
 {
 	let endTime = getEndTime(purchase.date, purchase.ticket);
-	let tripStart = new Date(trip.day + " " + trip.start);
-	let tripEnd = new Date(trip.day + " " + trip.end);
+	let tripStart = trip.start;
+	let tripEnd = trip.end;
 	let firstEnd = endTime > tripEnd ? tripEnd : endTime;
 	let lastStart = tripStart > purchase.date ? tripStart : purchase.date;
 	let result = {remainders: []};
@@ -292,7 +338,6 @@ function addTrip (tripType)
 		fromZone: document.querySelector("input[name=\"zone1\"]:checked").value,
 		toZone: document.querySelector("input[name=\"zone2\"]:checked").value,
 		people: peopleO.filter(v => v.checkbox.checked).reduce((output, value) => (output[getPersonType(value)].push(value.name), output), {adults: [], children: []}),
-		day: travelDay.value
 	};
 	switch (tripType)
 	{
@@ -301,8 +346,8 @@ function addTrip (tripType)
 				{
 					...base,
 					shortTrip: singleShortTrip.checked,
-					start: singleStartTime.value || undefined,
-					end: singleEndTime.value || undefined
+					start: new Date(travelDay.value + " " +singleStartTime.value) || undefined,
+					end: new Date(travelDay.value + " " +singleEndTime.value) || undefined
 				});
 			break;
 		case "round":
@@ -311,8 +356,8 @@ function addTrip (tripType)
 				{
 					...base,
 					shortTrip: roundShortTrip.checked,
-					start: roundStartTime1.value || undefined,
-					end: roundEndTime1.value || undefined
+					start: new Date(travelDay.value + " " +roundStartTime1.value) || undefined,
+					end: new Date(travelDay.value + " " +roundEndTime1.value) || undefined
 				});
 			let $from = base.fromZone;
 			base.fromZone = base.toZone;
@@ -321,16 +366,16 @@ function addTrip (tripType)
 				{
 					...base,
 					shortTrip: roundShortTrip.checked,
-					start: roundStartTime2.value || undefined,
-					end: roundEndTime2.value || undefined
+					start: new Date(travelDay.value + " " +roundStartTime2.value) || undefined,
+					end: new Date(travelDay.value + " " +roundEndTime2.value) || undefined
 				});
 			break;
 		case "day":
 			trips.push(
 				{
 					...base,
-					start: dayStartTime.value || undefined,
-					end: dayEndTime.value || undefined
+					start: new Date(travelDay.value + " " +dayStartTime.value) || undefined,
+					end: new Date(travelDay.value + " " +dayEndTime.value) || undefined
 				});
 			break;
 	}
@@ -368,7 +413,7 @@ function findBestDeal ()
 }
 function test()
 {
-	trips = [{"type":"single","fromZone":"A","toZone":"A","people":{"adults":["Daddy"],"children":[]},"day":"2018-06-09","shortTrip":false,"start":"09:00","end":"10:00"}];
+	trips = [{"type":"single","fromZone":"A","toZone":"A","people":{"adults":["Daddy"],"children":[]},"shortTrip":false,"start":new Date("2018-06-09 09:00"),"end":new Date("2018-06-09 10:00")}];
 	findBestDeal();
 }
 </script>
