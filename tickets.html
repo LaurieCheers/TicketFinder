@@ -115,26 +115,28 @@ function getTripRemainders(purchase, trip)
 	if (rangeCovered.covered === undefined)
 		return undefined;
 
-	let baseTrip = {...trip, start:rangeCovered.covered.start, end:rangeCovered.covered.end};
-	let newTrip = {...baseTrip, people: getRemainingPeople(purchase.ticket, trip)};
-	let newZones = getRemainingZones(purchase.ticket, trip);
+	let coveredTrip = {...trip, start:rangeCovered.covered.start, end:rangeCovered.covered.end};
 
-	if (newTrip.people === undefined || newZones === undefined)
+	let newPeople = getRemainingPeople(purchase.ticket, trip);
+	let newZones = getRemainingZones(purchase.ticket, trip);
+	if (newPeople === undefined || newZones === undefined)
 		return undefined;
 
+	if(newPeople.adults.length !== 0 || newPeople.children.length !== 0)
+	{
+		// if we didn't cover all the people, make a new trip for the leftovers
+		results.push({...coveredTrip, people:newPeople});
+	}
+	
 	if (newZones.length === 1)
 	{
-		let extensionTrip = {...baseTrip, isExtension:true, fromZone:newZones[0], toZone:newZones[0]};
-		results.push(extensionTrip);
+		// if we didn't cover all the zones, add an extension trip
+		results.push({...coveredTrip, isExtension:true, fromZone:newZones[0], toZone:newZones[0]});
 	}
-
-	if(newZones.length !== 0 || newTrip.people.adults.length !== 0 || newTrip.people.children.length !== 0)
-	{
-		results.push(newTrip);
-	}
-		
+	
 	for (let remainder of rangeCovered.remainders)
 	{
+		// if we didn't cover the whole duration of the trip, make new trips for the leftover times
 		results.push({...trip, start:remainder.start, end:remainder.end});
 	}
 	
@@ -444,8 +446,8 @@ function test()
 {
 	trips = [
 		{"type":"single","fromZone":"A","toZone":"A","people":{"adults":["Daddy"],"children":["Michael"]},"shortTrip":false,"start":new Date("2018-06-09 09:00"),"end":new Date("2018-06-09 10:00")},
-		{"type":"single","fromZone":"A","toZone":"A","people":{"adults":["Daddy"],"children":["Michael"]},"shortTrip":false,"start":new Date("2018-06-09 13:00"),"end":new Date("2018-06-09 14:00")},
-		{"type":"single","fromZone":"A","toZone":"C","people":{"adults":[],"children":["Michael"]},"shortTrip":false,"start":new Date("2018-06-09 15:00"),"end":new Date("2018-06-09 16:00")}
+		{"type":"single","fromZone":"A","toZone":"A","people":{"adults":["Daddy"],"children":["Michael"]},"shortTrip":false,"start":new Date("2018-06-10 13:00"),"end":new Date("2018-06-10 14:00")},
+		{"type":"single","fromZone":"A","toZone":"C","people":{"adults":[],"children":["Michael"]},"shortTrip":false,"start":new Date("2018-06-11 15:00"),"end":new Date("2018-06-11 16:00")}
 	];
 	findBestDeal();
 }
