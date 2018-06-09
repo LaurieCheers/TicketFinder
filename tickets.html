@@ -157,6 +157,11 @@ function getTripRemaindersAfterPurchases(purchases, trip)
 					nextRemainders.push(tripRemainder);
 				}
 			}
+			else
+			{
+				// unchanged
+				nextRemainders.push(remainder);
+			}
 		}
 		
 		remainders = nextRemainders;
@@ -202,7 +207,8 @@ function findPurchaseOptionsForTrip(allTickets, trip)
 		}
 		else
 		{
-			let furtherOptions = findTicketOptionsForSchedule(allTickets, tripRemainders);
+			// slice removes tickets we already tried - don't generate the same set of purchases in the opposite order
+			let furtherOptions = findTicketOptionsForSchedule(allTickets.slice(ticketIdx), tripRemainders);
 			for(let option of furtherOptions)
 			{
 				ticketOptions.push(addPurchases(purchase, option));
@@ -228,27 +234,50 @@ function findTicketOptionsForSchedule(allTickets, trips)
 		let world = activeWorlds.pop();
 		let trip = world.trips[0];
 		let extraPurchaseOptions = findPurchaseOptionsForTrip(allTickets, trip);
+		let cheapestSingle = undefined;
+		let cheapestSinglePrice = 1E9;
+		let usefulWorlds = [];
 		
 		for(let extraPurchases of extraPurchaseOptions)
 		{
 			let remainingTrips = [];
-			for(let otherTrip of trips)
+			let purchasesWereUseful = false;
+			for(let otherTrip of world.trips)
 			{
 				if(otherTrip === trip)
 					continue;
 				
-				let remainders = getTripRemaindersAfterPurchases(extraPurchases, otherTrip);
+				let remainders = getTripRemaindersAfterPurchases(extraPurchases.purchases, otherTrip);
+				if(remainders.length !== 1 || remainders[0] !== otherTrip)
+				{
+					purchasesWereUseful = true;
+				}
 				for(let remainder of remainders)
 				{
 					remainingTrips.push(remainder);
 				}
 			}
 			
-			let newPurchaseList = addPurchases(world.purchases, extraPurchases);
-			if(remainingTrips.length === 0)
-				purchaseOptions.push(newPurchaseList)
+			if(purchasesWereUseful) // discard purchase options that don't cover subsequent trips...
+			{
+				usefulWorlds.push({purchases:addPurchases(world.purchases, extraPurchases), trips:remainingTrips});
+			}
+			else if(cheapestSinglePrice > extraPurchases.price) // ...except the cheapest one.
+			{
+				cheapestSingle = {purchases:addPurchases(world.purchases, extraPurchases), trips:remainingTrips};
+				cheapestSinglePrice = extraPurchases.price;
+			}
+		}
+
+		if(cheapestSingle !== undefined)
+			usefulWorlds.push(cheapestSingle);
+		
+		for(let newWorld of usefulWorlds)
+		{
+			if(newWorld.trips.length === 0)
+				purchaseOptions.push(newWorld.purchases);
 			else
-				activeWorlds.push( {purchases:addPurchases(world.purchases, extraPurchases), trips:remainingTrips} );
+				activeWorlds.push(newWorld);
 		}
 	}
 	return purchaseOptions;
@@ -413,7 +442,11 @@ function findBestDeal ()
 }
 function test()
 {
-	trips = [{"type":"single","fromZone":"A","toZone":"A","people":{"adults":["Daddy"],"children":[]},"shortTrip":false,"start":new Date("2018-06-09 09:00"),"end":new Date("2018-06-09 10:00")}];
+	trips = [
+		{"type":"single","fromZone":"A","toZone":"A","people":{"adults":["Daddy"],"children":["Michael"]},"shortTrip":false,"start":new Date("2018-06-09 09:00"),"end":new Date("2018-06-09 10:00")},
+		{"type":"single","fromZone":"A","toZone":"A","people":{"adults":["Daddy"],"children":["Michael"]},"shortTrip":false,"start":new Date("2018-06-09 13:00"),"end":new Date("2018-06-09 14:00")},
+		{"type":"single","fromZone":"A","toZone":"C","people":{"adults":[],"children":["Michael"]},"shortTrip":false,"start":new Date("2018-06-09 15:00"),"end":new Date("2018-06-09 16:00")}
+	];
 	findBestDeal();
 }
 </script>
