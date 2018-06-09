@@ -430,6 +430,7 @@ function addTicket ()
 }
 function load ()
 {
+	changePage(0);
 	for (let idx = 0; idx < tickets.length; idx++)
 	{
 		let option = document.createElement('option');
@@ -440,7 +441,33 @@ function load ()
 }
 function findBestDeal ()
 {
-	let result = findCheapestTicketsForSchedule(tickets, trips);
+	let result = findCheapestTicketsForSchedule(tickets, trips).purchases;
+	changePage(1);
+	result.sort((a, b) => a.date - b.date);
+	let totalPrice = 0;
+	for (let ticket of result)
+	{
+		let tr = document.createElement('tr');
+		let ticketName = document.createElement('th');
+		let price = document.createElement('td');
+		let validateAt = document.createElement('td');
+		validateAt.appendChild(new Text(ticket.date.toLocaleString("en-US")));
+		price.innerHTML = "&euro; " + ticket.ticket.price.toFixed(2);
+		ticketName.appendChild(new Text(ticket.ticket.name));
+		tr.appendChild(ticketName);
+		tr.appendChild(price);
+		tr.appendChild(validateAt);
+		ticketsToBuy.appendChild(tr);
+		totalPrice += ticket.ticket.price;
+	}
+	let tr = document.createElement('tr');
+	let totalText = document.createElement('th');
+	let totalNum = document.createElement('td');
+	totalNum.innerHTML = "&euro; " + totalPrice.toFixed(2);
+	totalText.appendChild(new Text("Total"));
+	tr.appendChild(totalText);
+	tr.appendChild(totalNum);
+	ticketsToBuy.appendChild(tr);
 }
 function test()
 {
@@ -451,9 +478,16 @@ function test()
 	];
 	findBestDeal();
 }
+let numberOfPages = 2;
+function changePage (to)
+{
+	for (let n = 0; n < numberOfPages; n++)
+		document.getElementById(`p${n}`).style.display = to === n ? "" : "none";
+}
 </script>
 </head>
 <body onload="load()">
+<div id=p0 class=page>
 <table id=people>
 <tr><th>Name</th><th>Age</th></tr>
 </table>
@@ -559,5 +593,16 @@ function test()
 </form>
 <button onclick="findBestDeal()">Calculate Best Deal</button><br>
 <button onclick="test()">Test</button>
+</div>
+<div id=p1 class=page>
+Tickets you need to buy:
+<table>
+<thead>
+<tr><th>Ticket</th><th>Price</th><th>Validation Date</th></tr>
+</thead>
+<tbody id=ticketsToBuy>
+</tbody>
+</table>
+</div>
 </body>
 </html>
